@@ -1,0 +1,10 @@
+<view class="section">
+  <view class="section__title">请选择最大延迟期限：</view>
+  <view class="flex-wrp flex-row">
+    <view class="flex-item bc_green">年</view>
+    <view class="flex-item bc_red">月</view>
+    <view class="flex-item bc_blue">日</view>
+  </view>
+</view>
+<button>取消</button>
+<button>确定</button>
