@@ -37,7 +37,7 @@ for (let i = 0; i < 60; i++) {
   minutes.push("" + i);
 }
 Page({
-
+   
   /**
    * 页面的初始数据
    */
@@ -142,5 +142,18 @@ Page({
     };
     data.multiIndex[e.detail.column] = e.detail.value;
     this.setData(data);
-  }
+  },
+  modalcnt: function () {
+    wx.showModal({
+      title: '提示',
+      content: '降价时商品信息将通过短信进行通知',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  }  
 },)

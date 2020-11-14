@@ -4,3 +4,8 @@
      <input value='{{time}}' name="dd_time" placeholder='选择时间' class="fs26 changetime"/>
   </picker>
  </view>
+ <span style="font-family:Comic Sans MS;font-size:18px;color:#333333;"><view class="container" class="zn-uploadimg">  
+      
+    <button type="primary"bindtap="modalcnt">确认</button>   
+ 
+</view></span>  
