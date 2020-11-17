@@ -1,7 +1,24 @@
+const db = wx.cloud.database()  //连接云数据库
 const app = getApp()
 Page({
-  data: {},
 
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    dataObj: ""
+  },
+  getData() {
+    //collection选择其中一个数据库
+    db.collection("EnglishHeader").get({
+      success: res => {
+        console.log(res)
+        this.setData({
+          dataObj: res.data
+        })
+      }
+    }) //选择这个数据库并通过get或得数据
+  },
   //执行点击事件
   formSubmit: function (e) {
 

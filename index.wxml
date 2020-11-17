@@ -1,5 +1,4 @@
 
- 
 <!-- 搜索框view -->
 <view class="search_con">
  
@@ -7,7 +6,13 @@
   <form bindsubmit="formSubmit">
   <!-- 记得设置name值，这样JS才能接收name=keyword的值 -->
     <input type="text" name="keyword" class="search_input" placeholder='输入你想搜索的商品关键词'/>
-    <button formType="submit" class="search_btn">搜索</button>    
+    <button type="primary" bindtap="getData">搜索</button>
+<view wx:for="{{dataObj}}">
+        <span style="color: red"  >{{item.name}}</span>
+        <span style="color: blue"  >价格：{{item.price}}元</span>
+        <a> {{item.url}} </a>
+
+</view>   
   </form>
 </view>
  
