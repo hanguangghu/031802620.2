@@ -1,0 +1,95 @@
+<!--搜索框1.0-->
+<view>
+     <view>
+        <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+            <!-- 搜索框 -->
+                <view class="weui-search-bar__box">
+                     <icon class="weui-icon-search_in-box" type="search" size="14"></icon> 
+                     <input type="text" bindtap="jumppage" class="weui-search-bar__input" placeholder="请输入搜索内容"/> 
+                    <!-- <button type="text" bindtap="jumppage">搜索</button> -->
+                     <i-icon class="weui-icon-search_del-text" type="delete" size="15" color="#80848f" /> 
+                </view>
+            </view>
+            <!-- 搜索按钮,调用搜索查询方法 -->
+            <!-- <view class="weui-search-bar__cancel-btn" bindtap='search'>搜索</view> -->
+        </view>
+    </view>
+</view>
+
+<!-- 导航条 -->
+<view class="nav">
+  <view border='1' bindtap="navSwitch" data-index="0" class="{{navState==0 ? 'nav-switch-style':''}}">今日推荐</view>
+  <view bindtap="navSwitch" data-index="1" class="{{navState==1 ? 'nav-switch-style':''}}">收藏夹</view>
+</view>
+
+<!-- 标签页 -->
+<swiper style="height:600px" bindchange="bindchange" current="{{navState}}">
+  <!-- 今日推荐 -->
+    <swiper-item>
+      <view class="style-roll">
+        <image wx:for="{{products}}" data-product="{{item}}" style="display:none;" wx:key="*this" bindload="imgLoad" mode="widthFix" src="{{item.product_img}}"></image>
+<view class="content">
+  <view class="left">
+    <view wx:for="{{lList}}" wx:key="*this" class="product-item">
+      <view class='all-box' bindtap='jmp'>
+        <navigator target="miniProgram" path="../2merchants">
+        <view class="product-img">
+          <image mode="widthFix" src="{{item.product_img}}"></image>
+        </view>
+        <view class="product-title">
+          {{item.product_name}}
+        </view>
+        <view class="product-price">
+          {{item.product_price}}
+        </view>
+      </navigator>
+      </view>
+    </view>
+  </view>
+  <view class="right">
+    <view wx:for="{{rList}}" wx:key="*this" class="product-item">
+      <view class='all-box' bindtap='jmp'>
+      <navigator target="miniProgram" path="../2merchants">
+        <view class="product-img">
+          <image mode="widthFix" src="{{item.product_img}}"></image>
+        </view>
+        <view class="product-title">
+          {{item.product_name}}
+        </view>
+        <view class="product-price">
+          {{item.product_price}}
+        </view>
+      </navigator>
+      </view>
+    </view>
+  </view>
+</view>
+      </view>
+    </swiper-item>
+
+    <!-- 收藏夹 -->
+    <swiper-item>
+      <view class="style-roll">
+        <view class='list'>
+        <block wx:for='{{dataList}}' wx:key='list' wx:for-item="item">
+      <view class="list_item">
+      <navigator url='details?id={{item.goods_id}}'>
+      <view class='img'>
+        <image src="{{imghref}}{{item.goods_img}}"  mode="scaleToFill"/>
+      </view>
+      <view class='info'>
+        <view class='title'>{{item.goods_title}}</view>
+        <view class='price'>￥{{item.goods_price}}</view>
+        <view class='num'>销量{{item.goods_xiaoliang}}</view>
+      </view>
+       </navigator>
+      <view class='clear'></view>
+  </view>
+  </block>
+</view>
+<view class="end">------已经到底了哦^-^------</view>
+        </view>
+    </swiper-item>
+</swiper>
+
