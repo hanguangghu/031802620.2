@@ -1,67 +1,81 @@
-const db = wx.cloud.database()  //连接云数据库
-const app = getApp()
+
+var wxCharts = require('../../utils/wxcharts.js');
+var app = getApp();
+var daylineChart = null;
+var yuelineChart = null;
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    dataObj: ""
-  },
-  getData() {
-    //collection选择其中一个数据库
-    db.collection("EnglishHeader").get({
-      success: res => {
-        console.log(res)
-        this.setData({
-          dataObj: res.data
-        })
+getMothElectro: function() {
+  var windowWidth = 320;
+  try {
+    var res = wx.getSystemInfoSync();
+    windowWidth = res.windowWidth;
+  } catch (e) {
+    console.error('getSystemInfoSync failed!');
+  }
+  yuelineChart = new wxCharts({ //当月用电折线图配置
+    canvasId: 'yueEle',
+    type: 'line',
+    categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'], //categories X轴
+    animation: true,
+    // background: '#f5f5f5',
+    series: [{
+      name: '总用电量',
+      //data: yuesimulationData.data,
+      data: [1, 6, 9, 1, 0, 2, 9, 2, 8, 6, 0, 9, 8, 0, 3, 7, 3, 9, 3, 8, 9, 5, 4, 1, 5, 8, 2, 4, 9, 8, 7],
+      format: function (val, name) {
+        return val.toFixed(2) + 'kWh';
       }
-    }) //选择这个数据库并通过get或得数据
-  },
-  //执行点击事件
-  formSubmit: function (e) {
-
-    //声明当天执行的
-    var that = this;
-
-    //获取表单所有name=keyword的值
-    var formData = e.detail.value.keyword;
-
-    //显示搜索中的提示
-    wx.showLoading({
-      title: '搜索中',
-      icon: 'loading'
-    })
-
-    //向搜索后端服务器发起请求
-    wx.request({
-
-      //URL
-      url: 'http://localhost/search.php?keyword=' + formData,
-
-      //发送的数据
-      data: formData,
-
-      //请求的数据时JSON格式
-      header: {
-        'Content-Type': 'application/json'
+    }, {
+      name: '电池供电量',
+      data: [0, 6, 2, 2, 7, 6, 2, 5, 8, 1, 8, 4, 0, 9, 7, 2, 5, 2, 8, 2, 5, 2, 9, 4, 4, 9, 8, 5, 5, 5, 6],
+      format: function (val, name) {
+        return val.toFixed(2) + 'kWh';
+      }
+    },
+    {
+      name: '光伏供电量',
+      data: [6, 4, 9, 7, 1, 4, 5, 1, 1, 8, 8, 6, 6, 2, 2, 2, 0, 5, 5, 8, 8, 8, 8, 9, 0, 4, 6, 9, 2, 1, 6],
+      format: function (val, name) {
+        return val.toFixed(2) + 'kWh';
+      }
+    },
+    {
+      name: '市电供电量',
+      data: [0, 4, 3, 3, 1, 7, 7, 7, 9, 9, 3, 3, 0, 0, 5, 6, 0, 4, 1, 2, 0, 1, 3, 9, 2, 5, 1, 8, 3, 4, 2],
+      format: function (val, name) {
+        return val.toFixed(2) + 'kWh';
+      }
+    }],
+    xAxis: {
+      disableGrid: true
+    },
+    yAxis: {
+      title: '当月用电(kWh)',
+      format: function (val) {
+        return val.toFixed(2);
       },
-
-      //请求成功
-      success: function (res) {
-
-        //控制台打印（开发调试用）
-        console.log(res.data)
-
-        //把所有结果存进一个名为re的数组
-        that.setData({
-          re: res.data,
-        })
-
-        //搜索成功后，隐藏搜索中的提示
-        wx.hideLoading();
-      }
-    })
-  },
+      max: 20,
+      min: 0
+    },
+    width: windowWidth,
+    height: 200,
+    dataLabel: false,
+    dataPointShape: true,
+    extra: {
+      lineStyle: 'curve'
+    }
+  });
+},
+onLoad:function (e){
+ this.getMothElectro();
+},
+yueTouchHandler: function (e) { //当月用电触摸显示
+  console.log(daylineChart.getCurrentDataIndex(e));
+  yuelineChart.showToolTip(e, { //showToolTip图表中展示数据详细内容
+    background: '#7cb5ec',
+    format: function (item, category) {
+      return category + '日 ' + item.name + ':' + item.data
+    }
+  });
+},
 })

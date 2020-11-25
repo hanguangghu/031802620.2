@@ -1,27 +1,5 @@
-
-<!-- 搜索框view -->
-<view class="search_con">
- 
-<!-- 表单 -->
-  <form bindsubmit="formSubmit">
-  <!-- 记得设置name值，这样JS才能接收name=keyword的值 -->
-    <input type="text" name="keyword" class="search_input" placeholder='输入你想搜索的商品关键词'/>
-    <button type="primary" bindtap="getData">搜索</button>
-<view wx:for="{{dataObj}}">
-        <span style="color: red"  >{{item.name}}</span>
-        <span style="color: blue"  >价格：{{item.price}}元</span>
-        <a> {{item.url}} </a>
-
-</view>   
-  </form>
-</view>
- 
-<!-- 搜索结果展示 -->
-<view wx:for="{{re}}" wx:key="re" class="search_result">
-<!-- 当提交空白表单的时候 -->
-  <view class="empty">{{item.empty}}</view>
-  <!-- 当有搜索结果的时候 -->
-  <view class="resname">{{item.resname}}</view>
-  <!-- 当查询不到结果的时候 -->
-  <view class="noresult">{{item.noresult}}</view>
-</view>
+<canvas
+  style="width: 400px; height: 500px;"
+  canvas-id="yueEle"
+  binderror="canvasIdErrorCallback"
+></canvas>
